@@ -39,20 +39,26 @@
 
 				// Get the options for the specific element
 				var $target = $( this );
-
+				console.log($target);
 				var refElementOptions = new getRefElementOptions( $target );
 
-				// Create the read-more link
-				$( this )
-					.after( "<span>" + options.readMoreText + "</span>" )
-					.next().addClass( options.readMoreLinkClass );
-				// Set the initial state of the read more element to be collapsed
-				$( this )
-					.css({
-					"height": refElementOptions.collapsedHeight,
-					"overflow": "hidden"
-					});
+				if($target.height() <= refElementOptions.collapsedHeight){
+					var col_height = $target.height()
+				}else{
+					var col_height = refElementOptions.collapsedHeight
+					// Create the read-more link
+					$( this )
+						.after( "<a href='javascript:void(0)'>" + options.readMoreText + "<i class='fas fa-chevron-circle-down ml-1 mt-3'></i></a>" )
+						.next().addClass( options.readMoreLinkClass );
+					// Set the initial state of the read more element to be collapsed
+					$( this )
+						.css({
+						"height": col_height,
+						"overflow": "hidden"
+						});
+				}
 			});
+
 		}
 
 		addReadMoreElement(obj);
@@ -83,9 +89,9 @@
 
 			// Change the "read more" word accordingly
 			if ( $( this ).text() === options.readMoreText ) {
-				$( this ).text( options.readLessText );
+				$( this ).html( options.readLessText + "<i class='fas fa-chevron-circle-up ml-1 mt-3'></i>");
 			} else {
-				$( this ).text( options.readMoreText );
+				$( this ).html( options.readMoreText + "<i class='fas fa-chevron-circle-down ml-1 mt-3'></i>");
 			}
 
 		});
